@@ -1,0 +1,22 @@
+service: ProductService
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-central-1
+
+functions:
+  getProductsList:
+    handler: functions/getProductsList.handler
+    events:
+      - httpApi:
+          path: /products
+          method: GET
+  getProductsById:
+    handler: functions/getProductsById.handler
+    events:
+     - httpApi:
+        path: /products/{productId}
+        method: GET
