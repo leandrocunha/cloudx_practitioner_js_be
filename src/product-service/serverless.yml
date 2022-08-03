@@ -6,34 +6,28 @@ provider:
   name: aws
   runtime: nodejs14.x
   region: eu-central-1
-  vpc:
-    securityGroupIds:
-      - sg-08f103441f9928ba5
-    subnetIds:
-      - subnet-6157931d
-      - subnet-fc66ef96
-      - subnet-207ab16c
   environment:
     POSTGRESQL_CONNECTION_STR: ${env:POSTGRESQL_CONNECTION_STR}
+  httpApi:
+    cors: true
 
 functions:
   createProduct:
-    handler: functions/createProduct.handler
+    handler: createProduct.handler
     events:
       - httpApi:
           path: /products
           method: POST
   getProductsList:
-    handler: functions/getProductsList.handler
+    handler: getProductsList.handler
     events:
       - httpApi:
           path: /products
           method: GET
   getProductsById:
-    handler: functions/getProductsById.handler
+    handler: getProductsById.handler
     events:
      - httpApi:
         path: /products/{productId}
         method: GET
-
 useDotenv: true

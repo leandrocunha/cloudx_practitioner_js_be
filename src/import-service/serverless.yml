@@ -1,0 +1,37 @@
+service: ImportService
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-central-1
+  httpApi:
+    cors: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action: s3:*
+      Resource:
+        - arn:aws:s3:::cloudx-aws-practitioner-js
+    - Effect: Allow
+      Action: s3:*
+      Resource:
+        - arn:aws:s3:::cloudx-aws-practitioner-js/*
+
+functions:
+  importProductsFile:
+    handler: importProductsFile.handler
+    events:
+      - httpApi:
+          path: /import
+          method: GET
+  importFileParser:
+    handler: importFileParser.handler
+    events:
+      - s3:
+          bucket: cloudx-aws-practitioner-js
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+          existing: true
+useDotenv: true
