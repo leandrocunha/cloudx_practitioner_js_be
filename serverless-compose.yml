@@ -1,0 +1,6 @@
+# serverless-compose.yml
+services:
+  product:
+    path: src/product-service
+  import:
+    path: src/import-service
