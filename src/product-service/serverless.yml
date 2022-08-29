@@ -30,4 +30,18 @@ functions:
      - httpApi:
         path: /products/{productId}
         method: GET
+  catalogBatchProcess:
+    handler: catalogBatchProcess.handler
+    events:
+      - sqs:
+          arn: arn:aws:sqs:eu-central-1:260942387442:sqs-catalog-queue-items
+          batchsize: 5
+
+resources:
+  Resources:
+    catalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: sqs-catalog-queue-items
+
 useDotenv: true
